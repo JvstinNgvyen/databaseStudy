@@ -1,0 +1,95 @@
+drop table is exists reserves;
+drop table is exists customer;
+
+Create Table customer
+(
+	cid		numeric(5,0) not null,
+	name	varchar(20),
+	age		numeric(3,0),
+	city	varchar(20),
+	state	varchar(2),
+	primary key (cid);
+);
+
+Create Table reserves
+(
+	cid		numeric(5,0) not null,
+	title	varchar(20) not null,
+	date	date,
+	
+	primary key (cid, title),
+	foreign key (cid) references customer (cid)
+);
+
+SELECT DISTINCT age
+FROM reserves
+WHERE state in ('CA');
+
+SELECT DISTINCT title as ut
+FROM reserves
+WHERE date between '2001-01-01' and '2001-02-01';
+
+SELECT count(*) FROM reserves WHERE title like '%er%';
+
+SELECT state, max(age)
+FROM customer
+WHERE age BETWEEN 20 AND 49
+GROUP BY state
+ORDER BY state;
+
+SELECT * FROM reserves
+WHERE cid in
+(SELECT cid FROM customer where state in ('CA'));
+
+SELECT name, title, date
+FROM Customer C, Reserves R
+WHERE C.cid = R.cid AND C.city = 'Oakland';
+
+SELECT title, COUNT(*)
+FROM Customer C, Reserves R
+WHERE C.cid = R.cid
+GROUP BY title
+ORDER BY title DESC;
+
+DROP VIEW IF EXISTS V1;
+
+CREATE VIEW V1 AS
+SELECT title, COUNT(*) as cnt
+FROM Customer C, Reserves R
+WHERE C.cid = R.cid
+GROUP BY title
+ORDER BY title DESC;
+SELECT Avg(cnt)
+FROM V1;
+
+#customer
+INSERT INTO `customer`
+(`cid`, `name`, `age`, `city`, `state`) VALUES ('1', 'Joe', 27, 'Berkeley', 'CA');
+INSERT INTO `customer`
+(`cid`, `name`, `age`, `city`, `state`) VALUES ('2', 'Betty', 23, 'Oakland', 'CA';
+INSERT INTO `customer`
+(`cid`, `name`, `age`, `city`, `state`) VALUES ('3', 'Sally', 49, 'Albany', 'NY';
+INSERT INTO `customer`
+(`cid`, `name`, `age`, `city`, `state`) VALUES ('4', 'Joe', 27, 'Berkeley', 'CA';
+
+#customer
+INSERT INTO `reserves`
+(`cid`, `title`, `date`) VALUES ('1', 'Bannanas', 2001-01-01);
+
+INSERT INTO `reserves`
+(`cid`, `title`, `date`) VALUES ('1', 'Sleeper', 2001-01-01);
+
+INSERT INTO `reserves`
+(`cid`, `title`, `date`) VALUES ('2', 'AnnieHall', 2001-02-01);
+
+INSERT INTO `reserves`
+(`cid`, `title`, `date`) VALUES ('2', 'Sleeper', 2001-01-01);
+
+INSERT INTO `reserves`
+(`cid`, `title`, `date`) VALUES ('3', 'Interiors', 2001-02-01);
+
+INSERT INTO `reserves`
+(`cid`, `title`, `date`) VALUES ('3', 'Sleeper', 2001-02-01);
+
+INSERT INTO `reserves`
+(`cid`, `title`, `date`) VALUES ('4', 'Sleeper', 2001-03-01);
